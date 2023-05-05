@@ -48,11 +48,11 @@ model.fit(X_train, y_train)
 accuracy = model.score(X_test, y_test)
 print('Accuracy:', accuracy)
 
-with open('diabetes_model.pkl', 'wb') as f:
+with open('model/diabetes_model.pkl', 'wb') as f:
     pickle.dump(model,f)
 #Uploading pickle file to s3
 s3 = boto3.client('s3')
 bucket_name = 'diabetesprojectfinal'
-key_name = 'diabetes_model.pkl'
+key_name = 'model/diabetes_model.pkl'
 model_pickle = pickle.dumps(model)
 response = s3.put_object(Bucket=bucket_name, Key=key_name, Body=model_pickle)

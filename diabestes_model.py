@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 import boto3
 
 
+# Method to save stuffs on AWS S3
 def save_to_s3(bucket_name, key_name, data):
     s3 = boto3.resource('s3', region_name='us-east-1')
     if isinstance(data, bytes):

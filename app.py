@@ -10,12 +10,17 @@ def index():
     return render_template('index.html')
 
 
-with open('https://diabetesprojectfinal.s3.amazonaws.com/model/diabetes_model.pkl', 'rb') as f:
-    model = pickle.load(f)
-
-
-@app.route('/diabetes', methods=['POST'])
+@app.route('/diabetes')
 def diabetes():
+    return render_template('diabetes.html')
+
+
+# with open('https://diabetesprojectfinal.s3.amazonaws.com/model/diabetes_model.pkl', 'rb') as f:
+#     model1 = pickle.load(f)
+#
+
+@app.route('/diabetes_results', methods=['POST'])
+def diabetes_results():
     # Get form data from user input
     gender = int(request.form['gender'])
     age = int(request.form['age'])
@@ -29,15 +34,22 @@ def diabetes():
     form_data = np.array([[gender, age, hypertension, heart_disease, smoking_history, bmi, hba1c_level,
                            blood_glucose_level]])
 
-    prediction = model.predict(form_data)
-    probability = model.predict_proba(form_data)[0, 1]
+    prediction = model1.predict(form_data)
+    probability = model1.predict_proba(form_data)[0, 1]
 
-    return render_template('diabetes_result.html', prediction=prediction[0], probability=probability)
+    return render_template('diabetes_results.html', prediction=prediction[0], probability=probability)
 
 
-@app.route('/hear_attack', methods=['POST'])
+@app.route('/heart_attack')
 def heart_attack():
-    #Get form data from user input
+    return render_template('heart_attack.html')
+
+# with open('https://diabetesprojectfinal.s3.amazonaws.com/model/heart_attack_model.pkl', 'rb') as file:
+#     model2 = pickle.load(file)
+
+@app.route('/hear_attack_results', methods=['POST'])
+def heart_attack_results():
+    # Get form data from user input
     age = int(request.form['Age'])
     sex = int(request.form['Sex'])
     cp = int(request.form['Chest Pain Type'])
@@ -55,10 +67,10 @@ def heart_attack():
     form_data = np.array([[age, sex, cp, trtbps, chol, fbs, restecg, thalachh,
                            exng, oldpeak, slp, caa, thall]])
 
-    prediction = model.predict(form_data)
-    probability = model.predict_proba(form_data)[0, 1]
+    prediction = model2.predict(form_data)
+    probability = model2.predict_proba(form_data)[0, 1]
 
-    return render_template('heartattack_result.html',  prediction=prediction[0], probability=probability)
+    return render_template('heart_attack_results.html', prediction=prediction[0], probability=probability)
 
 
 if __name__ == '__main__':

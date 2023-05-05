@@ -32,12 +32,33 @@ def diabetes():
     prediction = model.predict(form_data)
     probability = model.predict_proba(form_data)[0, 1]
 
-    return render_template('result.html', prediction=prediction[0], probability=probability)
+    return render_template('diabetes_result.html', prediction=prediction[0], probability=probability)
 
 
-@app.route('/hear_attack')
+@app.route('/hear_attack', methods=['POST'])
 def heart_attack():
-    return render_template('heart_attack.html')
+    #Get form data from user input
+    age = int(request.form['Age'])
+    sex = int(request.form['Sex'])
+    cp = int(request.form['Chest Pain Type'])
+    trtbps = int(request.form['Resting Blood Pressure'])
+    chol = int(request.form['Cholesterol'])
+    fbs = int(request.form['Fasting Blood Sugar'])
+    restecg = int(request.form['Rest ECG'])
+    thalachh = int(request.form['Max Heart Rate'])
+    exng = int(request.form['Exercise Induced Angina']
+    oldpeak = int(request.form['ST Depression'])
+    slp = int(request.form['Slope'])
+    caa = int(request.form['Num Major Vessels'])
+    thall = int(request.form['Thalassemia'])
+
+    form_data = np.array([[age, sex, cp, trtbps, chol, fbs, restecg, thalachh,
+                           exng, oldpeak, slp, caa, thall]])
+
+    prediction = model.predict(form_data)
+    probability = model.predict_proba(form_data)[0, 1]
+
+    return render_template('heartattack_result.html',  prediction=prediction[0], probability=probability)
 
 
 if __name__ == '__main__':

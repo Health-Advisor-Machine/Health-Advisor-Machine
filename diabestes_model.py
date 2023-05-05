@@ -32,7 +32,8 @@ def train_diabetes_model():
 
     # Upload the plot to S3 as an object
     object_key = 'plot/heatmap.png'
-    save_to_s3('diabetesprojectfinal', object_key, png_buffer.read())
+    png_file = png_buffer.read()
+    save_to_s3('diabetesprojectfinal', object_key, png_file)
 
     # Close the plot to free up memory
     plt.close()

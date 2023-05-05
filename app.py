@@ -1,9 +1,15 @@
+import boto3
 import numpy as np
 from flask import Flask, render_template, request
 import pickle
 
 app = Flask(__name__)
 
+s3 = boto3.client('s3')
+# Download the file from S3
+bucket_name = 'diabetesprojectfinal'
+s3.download_file(bucket_name, 'model/heart_attack_model.pkl', 'model/heart_attack_model.pkl')
+s3.download_file(bucket_name, 'model/diabetes_model.pkl', 'model/diabetes_model.pkl')
 
 @app.route('/')
 def index():
@@ -15,9 +21,9 @@ def diabetes():
     return render_template('diabetes.html')
 
 
-# with open('https://diabetesprojectfinal.s3.amazonaws.com/model/diabetes_model.pkl', 'rb') as f:
-#     model1 = pickle.load(f)
-#
+with open('model/diabetes_model.pkl', 'rb') as f:
+    model1 = pickle.load(f)
+
 
 @app.route('/diabetes_results', methods=['POST'])
 def diabetes_results():
@@ -44,8 +50,8 @@ def diabetes_results():
 def heart_attack():
     return render_template('heart_attack.html')
 
-# with open('https://diabetesprojectfinal.s3.amazonaws.com/model/heart_attack_model.pkl', 'rb') as file:
-#     model2 = pickle.load(file)
+with open('model/heart_attack_model.pkl', 'rb') as file:
+    model2 = pickle.load(file)
 
 @app.route('/hear_attack_results', methods=['POST'])
 def heart_attack_results():
@@ -74,4 +80,4 @@ def heart_attack_results():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)

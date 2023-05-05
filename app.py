@@ -46,7 +46,7 @@ def heart_attack():
     fbs = int(request.form['Fasting Blood Sugar'])
     restecg = int(request.form['Rest ECG'])
     thalachh = int(request.form['Max Heart Rate'])
-    exng = int(request.form['Exercise Induced Angina']
+    exng = int(request.form['Exercise Induced Angina'])
     oldpeak = int(request.form['ST Depression'])
     slp = int(request.form['Slope'])
     caa = int(request.form['Num Major Vessels'])

@@ -7,14 +7,13 @@
 <body>
     <h1>Predict your craziness</h1>
     <h4>Are you a software developer?</h4>
-    <form action='/craziness' method="post">
+    <form action='/craziness_results' method="post">
       <select id="developer" name="developer" required>
         <option value="">Please select</option>
         <option value="0">Yes</option>
         <option value="1">No</option>
       </select>
-        <input type="submit" value="Submit"/>
+        <button type="submit">Submit</button>
     </form>
-<p>Your craziness prediction is: {{message}}</p>
 </body>
 </html>

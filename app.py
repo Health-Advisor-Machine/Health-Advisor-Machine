@@ -5,8 +5,7 @@ from flask import Flask, render_template, request, flash
 import pickle
 
 app = Flask(__name__)
-
-
+app.secret_key = 'TRUNG TRAN'
 
 # Down load pickle files from S3. Only use when needed, so we don't have to run everytime.
 # s3 = boto3.client('s3')
@@ -82,7 +81,7 @@ def diabetes_results():
     # calculate BMI
     height_m = (feet * 0.3048) + (inches * 0.0254)
     weight_kg = weight * 0.45359237
-    bmi = round(weight_kg / (height_m ** 2),1)
+    bmi = round(weight_kg / (height_m ** 2), 1)
     hba1c_level = float(request.form['HbA1c_level'])
     blood_glucose_level = int(request.form['blood_glucose_level'])
     # Important to check feature's orders
@@ -160,8 +159,13 @@ else:
     table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
 
 
-@app.route('/feedback', methods=['POST'])
+@app.route('/feedback', methods=['GET'])
 def feedback():
+    return render_template('feedback.html')
+
+
+@app.route('/feedback', methods=['POST'])
+def add_feedback():
     name = request.form['name']
     rating = request.form['rating']
     comment = request.form['comment']
@@ -179,15 +183,20 @@ def feedback():
     return render_template('feedback.html')
 
 
-@app.route('/craziness',methods=['POST'])
+@app.route('/craziness')
 def craziness():
+    return render_template("craziness.html")
+
+
+@app.route('/craziness_results', methods=['POST'])
+def craziness_results():
     choice = request.form['developer']
     if choice == "0":
         message = "YOU ARE CRAZY!"
     else:
         message = "ARE YOU CRAZY?"
 
-    return render_template("craziness.html",message=message)
+    return render_template("craziness_results.html", message=message)
 
 
 if __name__ == '__main__':

@@ -35,16 +35,52 @@ def diabetes():
 def diabetes_results():
     # Get form data from user input
     gender = int(request.form['gender'])
+    if gender == 0:
+        female = 1
+        male = 0
+    else:
+        male = 1
+        female = 0
+    smoking_history = int(request.form['smoking_history'])
+    if smoking_history == 0:
+        never = 1
+        no_info = 0
+        current = 0
+        former = 0
+        ever = 0
+    elif smoking_history == 1:
+        never = 0
+        no_info = 1
+        current = 0
+        former = 0
+        ever = 0
+    elif smoking_history == 2:
+        never = 0
+        no_info = 0
+        current = 1
+        former = 0
+        ever = 0
+    elif smoking_history == 3:
+        never = 0
+        no_info = 0
+        current = 0
+        former = 1
+        ever = 0
+    elif smoking_history == 4:
+        never = 0
+        no_info = 0
+        current = 0
+        former = 0
+        ever = 1
     age = int(request.form['age'])
     hypertension = int(request.form['hypertension'])
     heart_disease = int(request.form['heart_disease'])
-    smoking_history = int(request.form['smoking_history'])
     bmi = float(request.form['bmi'])
     hba1c_level = float(request.form['HbA1c_level'])
     blood_glucose_level = int(request.form['blood_glucose_level'])
 
-    form_data = np.array([[gender, age, hypertension, heart_disease, smoking_history, bmi, hba1c_level,
-                           blood_glucose_level]])
+    form_data = np.array([[female, male, never, no_info, current, former, ever, age,
+                           hypertension, heart_disease, bmi, hba1c_level, blood_glucose_level]])
 
     prediction = model1.predict(form_data)
     probability = model1.predict_proba(form_data)[0, 1]

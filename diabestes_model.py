@@ -54,9 +54,14 @@ def train_diabetes_model():
     accuracy = model.score(X_test, y_test)
     print('Accuracy:', accuracy)
 
+    # Save the trained model as a pickle file
+    with open('model/diabetes_model.pkl', 'wb') as f:
+        pickle.dump(model, f)
+
     # Save the model to S3 as a pickle file
-    model_pickle = pickle.dumps(model)
-    save_to_s3('diabetesprojectfinal', 'model/diabetes_model.pkl', model_pickle)
+    s3 = boto3.client('s3')
+    with open('model/diabetes_model.pkl', "rb") as f:
+        s3.upload_fileobj(f, 'diabetesprojectfinal', 'model/diabetes_model.pkl')
 
 
 if __name__ == "__main__":

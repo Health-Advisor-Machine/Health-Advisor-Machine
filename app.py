@@ -105,10 +105,10 @@ def heart_attack_results():
     restecg = int(request.form['restecg'])
     thalachh = int(request.form['thalachh'])
     exng = int(request.form['exng'])
-    oldpeak = int(request.form['ST Depression'])
-    slp = int(request.form['Slope'])
-    caa = int(request.form['Num Major Vessels'])
-    thall = int(request.form['Thalassemia'])
+    oldpeak = int(request.form['oldpeak'])
+    slp = int(request.form['slp'])
+    caa = int(request.form['caa'])
+    thall = int(request.form['thall'])
 
     form_data = np.array([[age, sex, cp, trtbps, chol, fbs, restecg, thalachh,
                            exng, oldpeak, slp, caa, thall]])

@@ -14,7 +14,16 @@
 </head>
 <body>
 	<h1>Diabetes Prediction Result</h1>
-	<p>The prediction for the given input data is: <strong>{{ prediction }}</strong></p>
-	<p>The probability for the given input data is: <strong>{{ probability }}</strong></p>
+	<p>The prediction based on your  input data is: <strong>{{ "DIABETIC" if prediction == 1 else "NOT DIABETIC" }}</strong></p>
+	<p>The probability based on input data is: <strong>{{ probability*100 }} percent to be diabetic</strong></p>
+	{% if prediction == 0 %}
+		<p>CONGRATULATIONS! You are diabetic free. Please take good care of yourself.</p>
+	{% else %}
+    	<p>YOU ARE DIABETIC. PLEASE FOLLOW DOCTOR'S INSTRUCTIONS.</p>
+	{% endif %}
+
+	{% if probability > 0.5 %}
+    	<p>BE CAREFUL! You have a high chance of getting diabetes. Please follow these instructions:</p>
+	{% endif %}
 </body>
 </html>

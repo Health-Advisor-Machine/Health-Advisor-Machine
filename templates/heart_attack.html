@@ -53,15 +53,15 @@
 		<label for="cp">Chest Pain Type:</label>
 		<select id="cp" name="cp" required>
 			<option value="">Please select</option>
-			<option value="0">Typical Angina</option>
-			<option value="1">Atypical Angina</option>
-			<option value="2">Non-anginal Pain</option>
-			<option value="3">Asymptomatic</option>
+			<option value="0">Typical Angina (no longer than 10 minutes)</option>
+			<option value="1">Atypical Angina (longer than Typical)</option>
+			<option value="2">Non-anginal Pain (other symptoms)</option>
+			<option value="3">Asymptomatic (no symptom)</option>
 		</select>
 		<label for="trtbps">Resting Blood Pressure:</label>
-		<input type="number" id="trtbps" name="trtbps" min="0" max="250" required>
-		<label for="chol">Cholesterol:</label>
-		<input type="number" id="chol" name="chol" min="0" max="600" required>
+		<input type="number" id="trtbps" name="trtbps" min="0" max="250" value="120" required>
+		<label for="chol">Total Cholesterol:</label>
+		<input type="number" id="chol" name="chol" min="0" max="600" value="200" required>
 		<label for="fbs">Fasting Blood Sugar:</label>
 		<select id="fbs" name="fbs" required>
 			<option value="">Please select</option>
@@ -76,7 +76,7 @@
 			<option value="2">Left ventricular hypertrophy</option>
 		</select>
 		<label for="thalachh">Max Heart Rate:</label>
-		<input type ="number" id="thalachh" name="thalachh" min="0" max="250" required>
+		<input type ="number" id="thalachh" name="thalachh" min="0" max="250" value="190" required>
 		<label for="exng">Exercise Induced Angina:</label>
 		<select id="exng" name="exng" required>
 			<option value="">Please select</option>

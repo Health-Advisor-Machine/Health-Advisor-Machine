@@ -85,7 +85,7 @@ def diabetes_results():
     bmi = round(weight_kg / (height_m ** 2),1)
     hba1c_level = float(request.form['HbA1c_level'])
     blood_glucose_level = int(request.form['blood_glucose_level'])
-
+    # Important to check feature's orders
     form_data = np.array([[female, male, never, no_info, current, former, ever, age,
                            hypertension, heart_disease, bmi, hba1c_level, blood_glucose_level]])
 

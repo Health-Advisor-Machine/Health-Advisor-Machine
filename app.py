@@ -126,29 +126,8 @@ def heart_attack_results():
     return render_template('heart_attack_results.html', prediction=prediction[0], probability=probability)
 
 
-@app.route('/comments', methods=['POST'])
-def add_comments():
-    name = request.form['name']
-    rating = request.form['rating']
-    comment = request.form['comment']
-
-    # Add comment to DynamoDB table
-    table.put_item(
-        Item={
-            'comment_id': str(time.time()),
-            'name': name,
-            'rating': rating,
-            'comment': comment
-        }
-    )
-    flash('Thank you for your comment! It was saved on DynamoDB')
-    return render_template('comments.html')
-
-
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 table_name = 'final_comments'
-
-
 # COMMAND IN CLI TO DOWNLOAD FROM DYNAMODB
 # aws dynamodb scan --table-name comments --output json --query "Items[*]" > json/comments.json
 
@@ -179,6 +158,26 @@ else:
     )
     # Wait for table to be created
     table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    name = request.form['name']
+    rating = request.form['rating']
+    comment = request.form['comment']
+
+    # Add comment to DynamoDB table
+    table.put_item(
+        Item={
+            'comment_id': str(time.time()),
+            'name': name,
+            'rating': rating,
+            'comment': comment
+        }
+    )
+    flash('Thank you for your comment! It was saved on DynamoDB')
+    return render_template('feedback.html')
+
 
 
 if __name__ == '__main__':

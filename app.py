@@ -192,9 +192,9 @@ def craziness():
 def craziness_results():
     choice = request.form['developer']
     if choice == "0":
-        message = "YOU ARE CRAZY!!! YES DEVELOPERS ARE CRAZY!"
+        message = "YOU ARE CRAZY! ----- DEVELOPERS ARE CRAZY!"
     else:
-        message = "ARE YOU CRAZY? YOU ARE A ZIP CODE DEV"
+        message = "Select the correct answer. It's supposed to be 'Yes'"
 
     return render_template("craziness.html", message=message)
 

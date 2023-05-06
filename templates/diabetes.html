@@ -1,46 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Diabetes Prediction Form</title>
-	<style type="text/css">
-		body {
-			font-family: Arial, sans-serif;
-			font-size: 16px;
-		}
-		h1 {
-			color: #4CAF50;
-		}
-		label {
-			display: block;
-			margin-top: 10px;
-			margin-bottom: 5px;
-			font-weight: bold;
-		}
-		input[type="number"], select {
-			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			box-sizing: border-box;
-			width: 100%;
-			margin-bottom: 20px;
-			font-size: 16px;
-		}
-		input[type="submit"] {
-			background-color: #4CAF50;
-			color: white;
-			padding: 12px 20px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			font-size: 16px;
-		}
-		input[type="submit"]:hover {
-			background-color: #45a049;
-		}
-	</style>
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block body %}
 	<h1>Diabetes Prediction Form</h1>
+	<p><i>We used Random Forest Regression Model, based on Data 100,000 records, accuracy rate 97%</i></p>
 	<form action="/diabetes_results" method="post">
 		<label for="gender">Gender:</label>
 		<select id="gender" name="gender" required>
@@ -84,5 +46,4 @@
 	</form>
 <hr>
 <a href="/">go home</a>
-</body>
-</html>
+{% endblock %}

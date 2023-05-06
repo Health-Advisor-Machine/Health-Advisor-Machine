@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About</title>
-    <style>
-		img {
-			display: inline-block;
-			height: 200px;
-			margin-right: 20px;
-		}
-	</style>
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block body %}
     <h1>The Health Advisor Machine</h1>
     <p>The Health Advisor Machine is a group project in machine learning that
         aims to predict the likelihood of several health conditions, including diabetes,
@@ -39,5 +28,4 @@
         Please consult your healthcare providers if you have health problems.
     </p>
 
-</body>
-</html>
+{% endblock %}

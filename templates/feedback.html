@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Feedback Form</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block body %}
     <h1>Feedback Form</h1>
     <form action="/feedback" method="post">
         <label for="name">Your Name:</label>
@@ -12,11 +8,11 @@
         <label for="rating">Project Rating:</label>
           <select id="rating" name="rating" required>
               <option value="">Please select</option>
-              <option value="1">1 (Bad)</option>
-              <option value="2">2 </option>
-              <option value="3">3 (Average)</option>
-              <option value="4">4</option>
               <option value="5">5 (Excellence)</option>
+              <option value="4">4 (Very Good)</option>
+              <option value="3">3 (Average)</option>
+              <option value="2">2 (Under Average)</option>
+              <option value="1">1 (Bad)</option>
           </select><br>
         <label for="comment">Comments</label>
         <textarea id="comment" name="comment" rows="3"></textarea><br>
@@ -47,5 +43,4 @@
     {% endwith %}
 <hr>
 <a href="/">go home</a>
-</body>
-</html>
+{% endblock %}

@@ -1,20 +1,6 @@
+{% extends 'layout.html' %}
 
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Heart Attack Prediction Result</title>
-	<style type="text/css">
-		body {
-			font-family: Arial, sans-serif;
-			font-size: 16px;
-		}
-		h1 {
-			color: #4CAF50;
-		}
-	</style>
-</head>
-<body>
+{% block body %}
 	<h1>Heart Attack Prediction Result</h1>
 	<p>The prediction based on your input data is: <strong>{{ "HIGH RISK" if prediction == 1 else "LOW RISK" }}</strong></p>
 	<p>The probability based on input data is: <strong>{{ probability*100 }} percent to have a heart attack</strong></p>
@@ -29,5 +15,5 @@
 	{% endif %}
 <hr>
 <a href="/">go home</a>
-</body>
-</html>
+
+{% endblock %}

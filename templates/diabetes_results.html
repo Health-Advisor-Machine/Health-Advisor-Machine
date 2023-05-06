@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Diabetes Prediction Result</title>
-	<style type="text/css">
-		body {
-			font-family: Arial, sans-serif;
-			font-size: 16px;
-		}
-		h1 {
-			color: #4CAF50;
-		}
-	</style>
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block body %}
 	<h1>Diabetes Prediction Result</h1>
 	<p>The prediction based on your  input data is: <strong>{{ "DIABETIC" if prediction == 1 else "NOT DIABETIC" }}</strong></p>
 	<p>The probability based on input data is: <strong>{{ probability*100 }} percent to be diabetic</strong></p>
@@ -27,5 +15,4 @@
 	{% endif %}
 <hr>
 <a href="/">go home</a>
-</body>
-</html>
+{% endblock %}

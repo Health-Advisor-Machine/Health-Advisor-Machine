@@ -75,7 +75,13 @@ def diabetes_results():
     age = int(request.form['age'])
     hypertension = int(request.form['hypertension'])
     heart_disease = int(request.form['heart_disease'])
-    bmi = float(request.form['bmi'])
+    feet = int(request.form['feet'])
+    inches = int(request.form['inches'])
+    weight = int(request.form['weight'])
+    # calculate BMI
+    height_m = (feet * 0.3048) + (inches * 0.0254)
+    weight_kg = weight * 0.45359237
+    bmi = round(weight_kg / (height_m ** 2),1)
     hba1c_level = float(request.form['HbA1c_level'])
     blood_glucose_level = int(request.form['blood_glucose_level'])
 
@@ -93,7 +99,7 @@ def heart_attack():
     return render_template('heart_attack.html')
 
 
-@app.route('/hear_attack_results', methods=['POST'])
+@app.route('/heart_attack_results', methods=['POST'])
 def heart_attack_results():
     # Get form data from user input
     age = int(request.form['age'])
@@ -105,7 +111,7 @@ def heart_attack_results():
     restecg = int(request.form['restecg'])
     thalachh = int(request.form['thalachh'])
     exng = int(request.form['exng'])
-    oldpeak = int(request.form['oldpeak'])
+    oldpeak = float(request.form['oldpeak'])
     slp = int(request.form['slp'])
     caa = int(request.form['caa'])
     thall = int(request.form['thall'])

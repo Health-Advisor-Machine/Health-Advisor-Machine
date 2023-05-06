@@ -188,15 +188,15 @@ def craziness():
     return render_template("craziness.html")
 
 
-@app.route('/craziness_results', methods=['POST'])
+@app.route('/craziness', methods=['POST'])
 def craziness_results():
     choice = request.form['developer']
     if choice == "0":
-        message = "YOU ARE CRAZY!"
+        message = "YOU ARE CRAZY!!! YES DEVELOPERS ARE CRAZY!"
     else:
-        message = "ARE YOU CRAZY?"
+        message = "ARE YOU CRAZY? YOU ARE A ZIP CODE DEV"
 
-    return render_template("craziness_results.html", message=message)
+    return render_template("craziness.html", message=message)
 
 
 if __name__ == '__main__':

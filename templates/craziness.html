@@ -6,8 +6,8 @@
 </head>
 <body>
     <h1>Predict your craziness</h1>
-    <h4>Are you a software developer?</h4>
-    <form action='/craziness_results' method="post">
+    <form action='/craziness' method="post">
+      <label>Are you a software developer?</label>
       <select id="developer" name="developer" required>
         <option value="">Please select</option>
         <option value="0">Yes</option>
@@ -15,5 +15,6 @@
       </select>
         <button type="submit">Submit</button>
     </form>
+<p>Your craziness prediction is: <strong>{{ message }}</strong?</p>
 </body>
 </html>

@@ -1,10 +1,32 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<title>Heart Attack Prediction Result</title>
+	<style type="text/css">
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+		}
+		h1 {
+			color: #4CAF50;
+		}
+	</style>
 </head>
 <body>
+	<h1>Heart Attack Prediction Result</h1>
+	<p>The prediction based on your input data is: <strong>{{ "HIGH RISK" if prediction == 1 else "LOW RISK" }}</strong></p>
+	<p>The probability based on input data is: <strong>{{ probability*100 }} percent to have a heart attack</strong></p>
+	{% if prediction == 0 %}
+		<p>CONGRATULATIONS! You are at low risk of having a heart attack. Please take good care of yourself.</p>
+	{% else %}
+    	<p>YOU ARE AT HIGH RISK OF HAVING A HEART ATTACK. PLEASE FOLLOW DOCTOR'S INSTRUCTIONS.</p>
+	{% endif %}
+
+	{% if probability > 0.5 %}
+    	<p>BE CAREFUL! You have a high chance of having a heart attack. Please follow these instructions:</p>
+	{% endif %}
 
 </body>
 </html>

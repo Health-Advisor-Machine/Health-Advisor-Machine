@@ -179,6 +179,16 @@ def feedback():
     return render_template('feedback.html')
 
 
+@app.route('/craziness',methods=['POST'])
+def craziness():
+    choice = request.form['developer']
+    if choice == "0":
+        message = "YOU ARE CRAZY!"
+    else:
+        message = "ARE YOU CRAZY?"
+
+    return render_template("craziness.html",message=message)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=6060, debug=True)

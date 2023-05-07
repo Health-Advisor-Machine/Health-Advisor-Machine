@@ -199,5 +199,20 @@ def craziness_results():
     return render_template("craziness.html", message=message)
 
 
+@app.route('/document')
+def document():
+    return render_template("document.html")
+
+
+@app.route('/project')
+def project():
+    return render_template("project.html")
+
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=6060, debug=True)

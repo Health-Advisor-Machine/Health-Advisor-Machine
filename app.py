@@ -1,18 +1,13 @@
 import time
 import boto3
 import numpy as np
-from flask import Flask, render_template, request, flash
 import pickle
+from flask import Flask, request, render_template, redirect, url_for, flash
+from kafka import KafkaProducer, KafkaConsumer
+import threading
 
 app = Flask(__name__)
 app.secret_key = 'TRUNG TRAN'
-
-# Down load pickle files from S3. Only use when needed, so we don't have to run everytime.
-# s3 = boto3.client('s3')
-# # Download the file from S3
-# bucket_name = 'diabetesprojectfinal'
-# s3.download_file(bucket_name, 'model/heart_attack_model.pkl', 'model/heart_attack_model.pkl')
-# s3.download_file(bucket_name, 'model/diabetes_model.pkl', 'model/diabetes_model.pkl')
 
 # Load Pickles
 with open('model/diabetes_model.pkl', 'rb') as f:
@@ -212,6 +207,52 @@ def project():
 @app.route('/about')
 def about():
     return render_template("about.html")
+
+
+# create Kafka producer
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
+# create Kafka consumer
+consumer = KafkaConsumer('my_topic', bootstrap_servers=['localhost:9092'], auto_offset_reset='latest')
+
+
+# thread to constantly check for new messages from Kafka consumer
+def kafka_consumer_thread():
+    for message in consumer:
+        # add message to a list to be rendered on the template
+        app.config['MESSAGES'].append(message.value.decode())
+
+
+# create a list to store messages
+app.config['MESSAGES'] = []
+
+# start Kafka consumer thread
+kafka_consumer = threading.Thread(target=kafka_consumer_thread)
+kafka_consumer.start()
+
+
+@app.route('/user1')
+def page1():
+    return render_template('page1.html', messages=app.config['MESSAGES'])
+
+
+# route to handle user input and send it to Kafka producer
+@app.route('/send_message1', methods=['POST'])
+def send_message1():
+    message = request.form['message']
+    producer.send('my_topic', message.encode())
+    return redirect(url_for('page1'))
+
+
+@app.route('/user2')
+def page2():
+    return render_template('page2.html', messages=app.config['MESSAGES'])
+
+
+@app.route('/send_message2', methods=['POST'])
+def send_message2():
+    message = request.form['message']
+    producer.send('my_topic', message.encode())
+    return redirect(url_for('page2'))
 
 
 if __name__ == '__main__':

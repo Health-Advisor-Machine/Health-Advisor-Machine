@@ -194,11 +194,6 @@ def craziness_results():
     return render_template("craziness.html", message=message)
 
 
-@app.route('/document')
-def document():
-    return render_template("document.html")
-
-
 @app.route('/project')
 def project():
     return render_template("project.html")

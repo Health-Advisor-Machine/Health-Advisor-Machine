@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-	<h1>Diabetes Prediction Result</h1>
+	<h1>Type 2 Diabetes Prediction Result</h1>
 	<p>The prediction based on your  input data is: <strong>{{ "DIABETIC" if prediction == 1 else "NOT DIABETIC" }}</strong></p>
 	<p>The probability based on input data is: <strong>{{ probability*100 }} percent to be diabetic</strong></p>
 	{% if prediction == 0 %}

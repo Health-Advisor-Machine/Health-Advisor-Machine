@@ -45,14 +45,13 @@ def train_depression_model():
     #  eval1 = BinaryClassificationEvaluator(rawPredictionCol='rawPrediction', labelCol='depressed')
     # AUC1 = eval1.evaluate(result1)
 
-    # Save the trained model as a pickle file
-    with open('model/depression_model.pkl', 'wb') as f:
-        pickle.dump(dt_model, f)
+    # Save the trained model file
+    dt_model.write().overwrite().save("model/depression_model")
 
     # Save the model to S3 as a pickle file
     s3 = boto3.client('s3')
-    with open('model/depression_model.pkl', "rb") as f:
-        s3.upload_fileobj(f, 'diabetesprojectfinal', 'model/depression_model.pkl')
+    with open('model/depression_model', "rb") as f:
+        s3.upload_fileobj(f, 'diabetesprojectfinal', 'model/depression_model')
 
 
 if __name__ == "__main__":

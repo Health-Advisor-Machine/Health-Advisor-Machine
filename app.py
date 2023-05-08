@@ -29,25 +29,25 @@ def depression():
 
 @app.route('/depression_results', methods=['POST'])
 def depression_results():
-    sex = int(request.form['sex'])
+    sex = 1
     age = int(request.form['age'])
     married = int(request.form['married'])
-    number_children = int(request.form['number_children'])
+    number_children = 2
     education_level = int(request.form['education_level'])
     total_members = int(request.form['total_members'])
-    gained_assets = int(request.form['gained_assets'])
+    gained_assets = 30000000
     durable_assets = int(request.form['durable_assets'])
-    save_asset = int(request.form['save_asset'])
-    living_expenses = int(request.form['living_expenses'])
-    other_expenses = int(request.form['other_expenses'])
-    incoming_salary = int(request.form['incoming_salary'])
-    incoming_own_farm = int(request.form['incoming_own_farm'])
-    incoming_business = int(request.form['incoming_business'])
-    incoming_no_business = int(request.form['incoming_no_business'])
-    incoming_agricultural = int(request.form['incoming_agricultural'])
-    farm_expenses = int(request.form['farm_expenses'])
+    save_asset = 10000000
+    living_expenses = 20000000
+    other_expenses = 20000000
+    incoming_salary = 0
+    incoming_own_farm = 0
+    incoming_business = 0
+    incoming_no_business = 0
+    incoming_agricultural = 0
+    farm_expenses = 0
     labour_primary = int(request.form['labour_primary'])
-    lasting_investment = int(request.form['lasting_investment'])
+    lasting_investment = 25000000
     no_lasting_investment = int(request.form['no_lasting_investment'])
 
     form_data=np.array([[sex,age,married,number_children,education_level,total_members,gained_assets,

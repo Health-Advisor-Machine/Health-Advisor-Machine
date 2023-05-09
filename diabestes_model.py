@@ -16,6 +16,7 @@ def save_to_s3(bucket_name, key_name, data):
         s3.Bucket(bucket_name).put_object(Key=key_name, Body=data)
     else:
         s3.Object(bucket_name, key_name).put(Body=data)
+    # To make file public
     s3.ObjectAcl(bucket_name, key_name).put(ACL='public-read')
 
 
@@ -45,7 +46,9 @@ def train_diabetes_model():
     X = pd.concat([pd.DataFrame(X_cat.toarray()), X_num], axis=1)
     y = df['diabetes']
 
+    # Giving error if not make them string
     X.columns = X.columns.astype(str)
+    # Split train and test
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     model = RandomForestClassifier(n_estimators=100, random_state=42)

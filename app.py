@@ -6,9 +6,8 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 from kafka import KafkaProducer, KafkaConsumer
 import threading
 
-
 app = Flask(__name__)
-app.secret_key = 'TRUNG TRAN'
+app.secret_key = 'HEALTH ADVISOR'
 
 # Load Pickles diabetes Logistic Regression model
 with open('model/diabetes_model.pkl', 'rb') as f:
@@ -19,16 +18,19 @@ with open('model/heart_attack_model.pkl', 'rb') as file:
     model2 = pickle.load(file)
 
 
+# Route to index home page
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
+# Route to diabetes form
 @app.route('/diabetes')
 def diabetes():
     return render_template('diabetes.html')
 
 
+# Route to diabetes results page after click on predict button
 @app.route('/diabetes_results', methods=['POST'])
 def diabetes_results():
     # Get form data from user input
@@ -85,18 +87,20 @@ def diabetes_results():
     # Important to check feature's orders
     form_data = np.array([[female, male, never, no_info, current, former, ever, age,
                            hypertension, heart_disease, bmi, hba1c_level, blood_glucose_level]])
-
+    # Model1 will expect 13 values from the numpy array
     prediction = model1.predict(form_data)
     probability = model1.predict_proba(form_data)[0, 1]
 
     return render_template('diabetes_results.html', prediction=prediction[0], probability=probability)
 
 
+# Route to heart attack form
 @app.route('/heart_attack')
 def heart_attack():
     return render_template('heart_attack.html')
 
 
+# Route to heart attack results after click on predict button
 @app.route('/heart_attack_results', methods=['POST'])
 def heart_attack_results():
     # Get form data from user input
@@ -123,6 +127,13 @@ def heart_attack_results():
     return render_template('heart_attack_results.html', prediction=prediction[0], probability=probability)
 
 
+# Route to depression form, but we don't do predict because accuracy rate is too low.
+@app.route('/depression')
+def depression():
+    return render_template('depression.html')
+
+
+# To start feed back page, where all feedback will be saved to DynamoDB
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 table_name = 'final_comments'
 # COMMAND IN CLI TO DOWNLOAD FROM DYNAMODB
@@ -134,6 +145,8 @@ if any(table.name == table_name for table in existing_tables):
     table = dynamodb.Table(table_name)
 else:
     # Create comments table
+    # DynamoDB is NoSQL, we cannot use SQL to create table
+    # These standard code create table in DynamoDB, following Key-Value and Hash function
     table = dynamodb.create_table(
         TableName=table_name,
         KeySchema=[
@@ -155,18 +168,16 @@ else:
     )
     # Wait for table to be created
     table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+# This end the block of creating table one DynamoDB if it's not there
 
 
-@app.route('/depression')
-def depression():
-    return render_template('depression.html')
-
-
+# This route to feedback page, get method
 @app.route('/feedback', methods=['GET'])
 def feedback():
     return render_template('feedback.html')
 
 
+# This also route to feedback page, post method
 @app.route('/feedback', methods=['POST'])
 def add_feedback():
     name = request.form['name']
@@ -186,6 +197,7 @@ def add_feedback():
     return render_template('feedback.html')
 
 
+# Route to craziness page
 @app.route('/craziness')
 def craziness():
     return render_template("craziness.html")

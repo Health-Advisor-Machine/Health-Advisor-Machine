@@ -51,7 +51,6 @@ def train_heart_attack_model():
     png_file = png_buffer.read()
     save_to_s3('diabetesprojectfinal', object_key, png_file)
 
-    # Close the plot to free up memory
     plt.close()
 
 

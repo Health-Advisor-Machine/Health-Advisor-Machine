@@ -122,10 +122,10 @@ def heart_attack_results():
     form_data = np.array([[age, sex, cp, trtbps, chol, fbs, restecg, thalachh,
                            exng, oldpeak, slp, caa, thall]])
 
-    prediction = model2.predict(form_data)
-    probability = model2.predict_proba(form_data)[0, 1]
+    prediction1 = model2.predict(form_data)
+    probability1 = model2.predict_proba(form_data)[0, 1]
 
-    return render_template('heart_attack_results.html', prediction=prediction[0], probability=probability)
+    return render_template('heart_attack_results.html', prediction=prediction1[0], probability=probability1)
 
 
 # Route to depression form, but we don't do predict because accuracy rate is too low.

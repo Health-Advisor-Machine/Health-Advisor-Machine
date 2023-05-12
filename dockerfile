@@ -1,56 +1,32 @@
-# Base image
-FROM openjdk:8-jdk-slim
+FROM python:3.8-slim-buster
 
-# Install Python and Flask dependencies
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    pip3 install flask && \
-    pip3 install awscli
+# Install Java
+RUN apt-get update && apt-get install -y default-jdk
 
-# Install required packages
-RUN apk add --update wget tar bash python3 python3-dev build-base
+# Install Kafka
+ENV KAFKA_HOME=/opt/kafka
+RUN mkdir -p $KAFKA_HOME && \
+    curl -sSL https://downloads.apache.org/kafka/2.8.1/kafka_2.12-2.8.1.tgz | tar xz --strip 1 -C $KAFKA_HOME
+
+# Install Spark
+ENV SPARK_HOME=/opt/spark
+RUN mkdir -p $SPARK_HOME && \
+    curl -sSL https://downloads.apache.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz | tar xz --strip 1 -C $SPARK_HOME
+
+# Install Python dependencies
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+
+# Copy the application code to the image
+COPY . /app
 
 # Set the working directory
-WORKDIR /
-
-# Install Spark and Kafka
-ENV SPARK_VERSION 3.1.1
-ENV HADOOP_VERSION 3.2
-RUN curl -L https://downloads.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz | tar -xvz -C /opt && \
-    mv /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark
-ENV PATH $PATH:/opt/spark/bin
-ENV PYTHONPATH $PYTHONPATH:/opt/spark/python/lib/py4j-0.10.9-src.zip:/opt/spark/python/
-
-ENV KAFKA_VERSION 2.8.0
-RUN curl -L https://downloads.apache.org/kafka/${KAFKA_VERSION}/kafka_2.13-${KAFKA_VERSION}.tgz | tar -xvz -C /opt && \
-    mv /opt/kafka_2.13-${KAFKA_VERSION} /opt/kafka
-ENV PATH $PATH:/opt/kafka/bin
-
-# Install ZooKeeper
-ENV ZOOKEEPER_VERSION 3.7.0
-RUN curl -L https://downloads.apache.org/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/apache-zookeeper-${ZOOKEEPER_VERSION}-bin.tar.gz | tar -xvz -C /opt && \
-    mv /opt/apache-zookeeper-${ZOOKEEPER_VERSION}-bin /opt/zookeeper
-ENV PATH $PATH:/opt/zookeeper/bin
-
-
-# Copy the Kafka configuration files
-COPY kafka_config/zookeeper.properties /opt/kafka/zookeeper.properties
-COPY kafka_config/server.properties /opt/kafka/server.properties
-
-# Copy the application folder
-COPY . /
-
-
-# Copy the requirements file and install dependencies
-COPY requirements.txt /app/
-RUN pip3 install -r requirements.txt
+WORKDIR /app
 
 # Expose the Flask, Kafka application port
 EXPOSE 5000
 EXPOSE 2181 9092
 
-ENTRYPOINT ["/app/start.sh"]
-
-# Start app shell scripts
-COPY start.sh /app/
+# Start the application
+ENTRYPOINT ["/bin/sh", "/app/start.sh"]
 CMD ["sh", "/app/start.sh"]

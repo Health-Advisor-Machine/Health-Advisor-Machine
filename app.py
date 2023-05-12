@@ -216,6 +216,7 @@ def craziness_results():
 
     return render_template("craziness.html", message=message)
 
+
 # These are the route to navigation bar links where we can find the project details.
 @app.route('/project')
 def project():
@@ -267,6 +268,8 @@ else:
     )
     # Wait for table to be created
     table1.meta.client.get_waiter('table_exists').wait(TableName=table_message)
+
+
 # This end the block of creating table one DynamoDB if it's not there
 
 
@@ -291,6 +294,7 @@ app.config['MESSAGES'] = []
 kafka_consumer = threading.Thread(target=kafka_consumer_thread)
 kafka_consumer.start()
 
+
 # route to the chat window
 @app.route('/user1')
 def page1():
@@ -304,10 +308,12 @@ def send_message1():
     producer.send('my_topic', message.encode())
     return redirect(url_for('page1'))
 
+
 # route to chat window 2 for professionals
 @app.route('/user2')
 def page2():
     return render_template('page2.html', messages=app.config['MESSAGES'])
+
 
 # route to handle the user input message and sending it to producer.
 @app.route('/send_message2', methods=['POST'])

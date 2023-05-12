@@ -4,13 +4,14 @@ FROM openjdk:8-jdk-slim
 # Install Python and Flask dependencies
 RUN apt-get update && \
     apt-get install -y python3 python3-pip && \
-    pip3 install flask
+    pip3 install flask && \
+    pip3 install awscli
 
 # Install required packages
 RUN apk add --update wget tar bash python3 python3-dev build-base
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /
 
 # Install Spark and Kafka
 ENV SPARK_VERSION 3.1.1
@@ -36,8 +37,9 @@ ENV PATH $PATH:/opt/zookeeper/bin
 COPY kafka_config/zookeeper.properties /opt/kafka/zookeeper.properties
 COPY kafka_config/server.properties /opt/kafka/server.properties
 
-# Copy the Flask application code
-COPY app.py /app/
+# Copy the application folder
+COPY . /
+
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt /app/
@@ -47,6 +49,8 @@ RUN pip3 install -r requirements.txt
 EXPOSE 5000
 EXPOSE 2181 9092
 
+ENTRYPOINT ["/app/start.sh"]
+
 # Start app shell scripts
-COPY start-app.sh /app/
-CMD ["sh", "/app/start-app.sh"]
+COPY start.sh /app/
+CMD ["sh", "/app/start.sh"]

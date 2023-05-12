@@ -216,7 +216,7 @@ def craziness_results():
 
     return render_template("craziness.html", message=message)
 
-
+# These are the route to navigation bar links where we can find the project details.
 @app.route('/project')
 def project():
     return render_template("project.html")
@@ -232,7 +232,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
 # create Kafka consumer
 consumer = KafkaConsumer('my_topic', bootstrap_servers=['localhost:9092'], auto_offset_reset='latest')
 
-# To start feed back page, where all feedback will be saved to DynamoDB
+#  messages will be saved to DynamoDB
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 table_message = 'final_message'
 # COMMAND IN CLI TO DOWNLOAD FROM DYNAMODB
@@ -240,13 +240,13 @@ table_message = 'final_message'
 
 # Check if table already exists
 existing_tables = list(dynamodb.tables.all())
-if any(table.name == table_message for table in existing_tables):
-    table = dynamodb.Table(table_message)
+if any(table1.name == table_message for table1 in existing_tables):
+    table1 = dynamodb.Table(table_message)
 else:
     # Create comments table
     # DynamoDB is NoSQL, we cannot use SQL to create table
     # These standard code create table in DynamoDB, following Key-Value and Hash function
-    table = dynamodb.create_table(
+    table1 = dynamodb.create_table(
         TableName=table_message,
         KeySchema=[
             {
@@ -266,7 +266,7 @@ else:
         }
     )
     # Wait for table to be created
-    table.meta.client.get_waiter('table_exists').wait(TableName=table_message)
+    table1.meta.client.get_waiter('table_exists').wait(TableName=table_message)
 # This end the block of creating table one DynamoDB if it's not there
 
 
@@ -276,8 +276,8 @@ def kafka_consumer_thread():
         # add message to a list to be rendered on the template
         app.config['MESSAGES'].append(message.value.decode())
 
-        # Add comment to DynamoDB table
-        table.put_item(
+        # Add message to DynamoDB table
+        table1.put_item(
             Item={
                 'message_id': str(time.time()),
                 'message': message
@@ -287,11 +287,11 @@ def kafka_consumer_thread():
 # create a list to store messages
 app.config['MESSAGES'] = []
 
-# start Kafka consumer thread
+# start Kafka consumer thread to receive the messages
 kafka_consumer = threading.Thread(target=kafka_consumer_thread)
 kafka_consumer.start()
 
-
+# route to the chat window
 @app.route('/user1')
 def page1():
     return render_template('page1.html', messages=app.config['MESSAGES'])
@@ -304,12 +304,12 @@ def send_message1():
     producer.send('my_topic', message.encode())
     return redirect(url_for('page1'))
 
-
+# route to chat window 2 for professionals
 @app.route('/user2')
 def page2():
     return render_template('page2.html', messages=app.config['MESSAGES'])
 
-
+# route to handle the user input message and sending it to producer.
 @app.route('/send_message2', methods=['POST'])
 def send_message2():
     message = request.form['message']

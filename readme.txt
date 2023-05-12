@@ -28,6 +28,10 @@ KAFKA FOR MAC
 
 1. Start zookeeper
 # zookeeper-server-start /opt/homebrew/etc/kafka/zookeeper.properties
+
+for Trung
+/opt/homebrew/Cellar/zookeeper/
+
 2. Start Kafka
 # kafka-server-start /opt/homebrew/etc/kafka/server.properties
 3. Create new topic name ‘test’

@@ -55,8 +55,11 @@ DOCKER
 #     docker run -it -e AWS_ACCESS_KEY_ID=<access-key-id> -e AWS_SECRET_ACCESS_KEY=<secret-access-key>
 #                     -e AWS_REGION=<region> <image-name>
 
-Docker rregistry push
-#     aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9g5b7l3
+Docker registry push
+#     aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin
+#  public.ecr.aws/f9g5b7l3
+# Replace <region> with the AWS region where your ECR repository is located,
+# and <your-aws-account-id> with your AWS account ID.
 #     docker tag health-app:latest public.ecr.aws/f9g5b7l3/health-app:latest
 #     docker push public.ecr.aws/f9g5b7l3/health-app:latest
 #

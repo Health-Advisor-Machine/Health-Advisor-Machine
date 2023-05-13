@@ -1,37 +1,18 @@
-FROM python:3.8-slim-bullseye
+FROM python
 
-RUN apt-get update && apt-get install -y curl
+COPY ./requirements.txt /requirements.txt
 
-# Install Java
-RUN apt-get update && apt-get install -y default-jdk
+WORKDIR /
 
-# Install Kafka
-ENV KAFKA_HOME=/opt/kafka
-RUN mkdir -p $KAFKA_HOME && \
-    curl -sSL https://downloads.apache.org/kafka/3.4.0/kafka_2.12-3.4.0.tgz | tar xz --strip 1 -C $KAFKA_HOME
+RUN pip3 install -r requirements.txt
+RUN apt-get update && apt-get install -y python3-pip
+RUN pip3 install awscli
 
-# Install Spark
-ENV SPARK_HOME=/opt/spark
-RUN mkdir -p $SPARK_HOME && \
-    curl -sSL https://dlcdn.apache.org/spark/spark-3.4.0/spark-3.4.0-bin-hadoop3.tgz | tar xz --strip 1 -C $SPARK_HOME
 
-RUN apt-get update && apt-get install -y build-essential
+COPY . /
 
-# Install Python dependencies
-COPY requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
-RUN pip install kafka-python
+EXPOSE 6060
 
-# Copy the application code to the image
-COPY . /app
+ENTRYPOINT ["python3"]
 
-# Set the working directory
-WORKDIR /app
-
-# Expose the Flask, Kafka application port
-EXPOSE 5000
-EXPOSE 2181 9092
-
-# Start the application
-ENTRYPOINT ["/bin/sh", "/app/docker.sh"]
-CMD ["sh", "/app/docker.sh"]
+CMD ["app.py"]

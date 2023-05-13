@@ -63,6 +63,46 @@ Docker registry push
 #     docker tag health-app:latest public.ecr.aws/f9g5b7l3/health-app:latest
 #     docker push public.ecr.aws/f9g5b7l3/health-app:latest
 #
+
+Change the permissions of your private key file (if necessary) by running the following command:
+
+chmod 400 /Users/trung/Downloads/final-project-keypair.pem
+ssh-add /Users/trung/Downloads/final-project-keypair.pem
+
+4. Connect to the EC2 instance using SSH by running the following command:
+
+ssh -i /Users/trung/Downloads/final-project-keypair.pem ec2-user@54.144.32.190
+
+
+ssh ec2-user@ec2-ip-address-dns-name-here
+sudo yum update
+sudo yum search docker
+sudo yum info docker
+sudo yum install docker
+
+sudo service docker start
+(Or sudo systemctl enable docker.service
+sudo systemctl start docker.service)
+
+sudo service docker start
+
+
+sudo docker pull public.ecr.aws/f9g5b7l3/health-app:latest
+BEFORE DO THIS< CONFIGURE AWS CREDENTIAL
+sudo docker run -d -p 6060:6060 public.ecr.aws/f9g5b7l3/health-app:latest
+sudo docker run -p 6060:6060 public.ecr.aws/f9g5b7l3/health-app:latest
+FREE TIER EC2 NOT SUPPORT,
+launch an EC2 instance with the a1 or c6g instance family, which uses ARM-based processors that support the linux/arm64/v8 architecture.
+To launch an EC2 instance using the AWS Management Console, you can follow these steps:
+1. Open the EC2 console in the AWS Management Console.
+2. Click "Launch Instance".
+3. Choose the "Amazon Linux 2 AMI (HVM), SSD Volume Type" or "Ubuntu Server 20.04 LTS" AMI.
+4. Select an instance type from the "Instance Type" page that is in the a1 or c6g family, such as "a1.medium" or "c6g.medium".
+5. Click "Review and Launch", and then "Launch".
+6. Select an existing key pair or create a new one, and then click "Launch Instances".
+Once the instance is launched, you can connect to it using SSH and run the container image using the docker run command.
+
+docker run public.ecr.aws/f9g5b7l3/health-app:latest
 -------------------------------------------------------------------------------------------
 
 KUBERNETES EKS

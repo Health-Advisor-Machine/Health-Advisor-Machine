@@ -1,3 +1,4 @@
+#Base Image
 FROM python
 
 COPY ./requirements.txt /requirements.txt

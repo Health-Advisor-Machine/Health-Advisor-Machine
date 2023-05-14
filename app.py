@@ -287,7 +287,7 @@ def kafka_consumer_thread():
             })
 
 
-# create a list to store messages
+# create a list to store flask messages
 app.config['MESSAGES'] = []
 
 # start Kafka consumer thread to receive the messages

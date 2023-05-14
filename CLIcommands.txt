@@ -79,6 +79,7 @@ sudo yum search docker
 sudo yum info docker
 sudo yum install docker
 
+FROM HER IS WHERE WE HAVE TO RUN, DOCKER ALREADY INSTALLED ON AMAZON LINUX
 sudo service docker start
 (Or sudo systemctl enable docker.service
 sudo systemctl start docker.service)
@@ -86,10 +87,10 @@ sudo systemctl start docker.service)
 sudo service docker start
 
 
-sudo docker pull public.ecr.aws/f9g5b7l3/health-app:latest
+sudo docker pull public.ecr.aws/f9g5b7l3/health-advisor-machine:latest
 BEFORE DO THIS< CONFIGURE AWS CREDENTIAL
-sudo docker run -d -p 6060:6060 public.ecr.aws/f9g5b7l3/health-app:latest
-sudo docker run -p 6060:6060 public.ecr.aws/f9g5b7l3/health-app:latest
+sudo docker run -d -p 6060:6060 public.ecr.aws/f9g5b7l3/health-advisor-machine:latest
+sudo docker run -p 6060:6060 public.ecr.aws/f9g5b7l3/health-advisor-machine:latest
 FREE TIER EC2 NOT SUPPORT,
 launch an EC2 instance with the a1 or c6g instance family, which uses ARM-based processors that support the linux/arm64/v8 architecture.
 To launch an EC2 instance using the AWS Management Console, you can follow these steps:

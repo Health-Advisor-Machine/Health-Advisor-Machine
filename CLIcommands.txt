@@ -56,12 +56,11 @@ DOCKER
 #                     -e AWS_REGION=<region> <image-name>
 
 Docker registry push
-#     aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin
-#  public.ecr.aws/f9g5b7l3
+#     aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9g5b7l3
 # Replace <region> with the AWS region where your ECR repository is located,
 # and <your-aws-account-id> with your AWS account ID.
-#     docker tag health-app:latest public.ecr.aws/f9g5b7l3/health-app:latest
-#     docker push public.ecr.aws/f9g5b7l3/health-app:latest
+#     docker tag final-testing:latest public.ecr.aws/f9g5b7l3/health-advisor-machine:latest
+#     docker push public.ecr.aws/f9g5b7l3/health-advisor-machine:latest
 #
 
 Change the permissions of your private key file (if necessary) by running the following command:
